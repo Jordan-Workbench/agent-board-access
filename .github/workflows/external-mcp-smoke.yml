@@ -1,0 +1,36 @@
+# Publish this template as .github/workflows/external-mcp-smoke.yml in the
+# PUBLIC Jordan-Workbench/agent-board-access repository (standard runners are free).
+# Publish scripts/external_mcp_smoke.py as external_smoke.py beside connector.py.
+# Set temporary repository secret MCP_SMOKE_TOKEN and public repository variable
+# MCP_VERIFY_KEY (trusted base64 Ed25519 pin); remove the secret after acceptance.
+name: External read-only MCP acceptance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Official actions/checkout v4.2.2; verified against upstream tag via ls-remote.
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install public connector dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv .venv
+          .venv/bin/python -m pip install --disable-pip-version-check -r requirements.txt
+      - name: Verify signed discovery and real remote MCP from hosted runner
+        shell: bash
+        env:
+          MCP_SMOKE_TOKEN: ${{ secrets.MCP_SMOKE_TOKEN }}
+          MCP_VERIFY_KEY: ${{ vars.MCP_VERIFY_KEY }}
+        run: |
+          set -euo pipefail
+          .venv/bin/python external_smoke.py
