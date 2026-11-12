@@ -15,6 +15,10 @@
     if (target.protocol !== "https:" || !/^[a-z0-9-]{1,63}\.trycloudflare\.com$/.test(target.hostname) ||
         target.username || target.password || target.search || target.hash || target.port || target.pathname !== "/apps/deck/board/2") throw new Error("Invalid destination");
     if (payload.mcp_url !== target.origin + "/mcp") throw new Error("Origin mismatch");
+    if (new URLSearchParams(location.search).has("connect")) {
+      target.pathname = "/apps/files/";
+      target.search = "?dir=/Agent%20Connections";
+    }
     document.getElementById("board").href = target.href;
     window.location.replace(target.href);
   } catch (_) {
