@@ -3,8 +3,8 @@
     "schema": 1,
     "mcp_url": "https://communications-end-astronomy-richards.trycloudflare.com/mcp",
     "board_url": "https://communications-end-astronomy-richards.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-12T06:13:24.762265+00:00",
-    "expires_at": "2026-11-13T06:13:24.762265+00:00"
+    "issued_at": "2026-11-12T07:44:36.900462+00:00",
+    "expires_at": "2026-11-13T07:44:36.900462+00:00"
   },
-  "signature": "14TKoPkbR6Ixr8slZM/1DXK4KJGpJ/63zl+qy0s9o6ix38izV+mhLHH9/7UNA0d7CmLvaAuRmQc18vchpXj9Aw=="
+  "signature": "3Vyyk+8AHlJ07xv9sZjNEaPiDdoJyRg6r+mxqtlJvIauJjMs+bEUysF48ONkGrq7/nv8rmyabDEqx52HO6noCA=="
 }

@@ -132,38 +132,88 @@ async def upstream(credentials):
         timeout=60,
     ) as client:
         async with streamable_http_client(url, http_client=client) as (reader, writer, _):
-            async with ClientSession(reader, writer) as session:
+            async with ClientSession(
+                reader, writer, read_timeout_seconds=dt.timedelta(seconds=60)
+            ) as session:
                 await session.initialize()
                 yield session
+
+
+class PortableRelay:
+    """One owner task retains the upstream context and serializes tool requests."""
+
+    def __init__(self, credentials):
+        self.credentials = credentials
+        self.queue = asyncio.Queue()
+
+    async def request(self, name, arguments):
+        future = asyncio.get_running_loop().create_future()
+        await self.queue.put((name, arguments, future))
+        async with asyncio.timeout(90):
+            return await future
+
+    async def run(self):
+        while True:
+            item = await self.queue.get()
+            try:
+                async with upstream(self.credentials) as session:
+                    while True:
+                        name, arguments, future = item
+                        if not future.cancelled():
+                            try:
+                                result = (
+                                    await session.list_tools()
+                                    if name == "__list_tools__"
+                                    else await session.call_tool(name, arguments)
+                                )
+                            except Exception:
+                                if not future.done():
+                                    future.set_exception(
+                                        ValueError(
+                                            "Remote operation failed; completion may be uncertain. Read back before retrying a write."
+                                        )
+                                    )
+                                # Drop the failed connection. NEVER replay this request.
+                                break
+                            if not future.done():
+                                future.set_result(result)
+                        item = await self.queue.get()
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                future = item[2]
+                if not future.done():
+                    future.set_exception(ValueError("Remote connection or signed discovery unavailable"))
 
 
 async def main(path):
     credentials = load_credentials(path)
     server = Server("agentdeck-portable")
+    relay = PortableRelay(credentials)
+    worker = asyncio.create_task(relay.run())
 
     @server.list_tools()
     async def list_tools():
-        async with upstream(credentials) as session:
-            result = await session.list_tools()
-            if {tool.name for tool in result.tools} != TOOLS:
-                raise ValueError("Unexpected remote capabilities; refusing discovery")
-            return result.tools
+        result = await relay.request("__list_tools__", {})
+        if {tool.name for tool in result.tools} != TOOLS:
+            raise ValueError("Unexpected remote capabilities; refusing discovery")
+        return result.tools
 
     @server.call_tool(validate_input=False)
     async def call_tool(name, arguments):
         if name not in TOOLS:
             raise ValueError("Tool is not permitted")
-        try:
-            async with upstream(credentials) as session:
-                return await session.call_tool(name, arguments or {})
-        except Exception:
-            # Never include headers/configuration in protocol errors or replay a write.
-            raise ValueError(
-                "Remote operation failed; completion may be uncertain. Read back before retrying a write."
-            ) from None
+        return await relay.request(name, arguments or {})
 
-    async with stdio_server() as (reader, writer):
-        await server.run(reader, writer, server.create_initialization_options())
+    try:
+        async with stdio_server() as (reader, writer):
+            await server.run(reader, writer, server.create_initialization_options())
+    finally:
+        worker.cancel()
+        try:
+            await worker
+        except asyncio.CancelledError:
+            pass
 
 
 if __name__ == "__main__":
