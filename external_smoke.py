@@ -21,6 +21,8 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 DISCOVERY_URL = "https://jordan-workbench.github.io/agent-board-access/endpoint.json"
 EXPECTED_TOOLS = {
     "list_boards",
+    "create_board",
+    "delete_board",
     "list_stacks",
     "list_cards",
     "get_card",
@@ -69,11 +71,17 @@ def rows(result):
 
 async def check_session(session):
     result = await session.list_tools()
-    if result.nextCursor or len(result.tools) != 9 or {tool.name for tool in result.tools} != EXPECTED_TOOLS:
+    if result.nextCursor or len(result.tools) != 11 or {tool.name for tool in result.tools} != EXPECTED_TOOLS:
         raise ValueError("Unexpected capabilities")
     boards = rows(await session.call_tool("list_boards", {}))
-    if len(boards) != 1 or type(boards[0].get("id")) is not int or boards[0]["id"] != 2:
+    ids = [board.get("id") for board in boards]
+    if (any(type(i) is not int or i < 2 for i in ids)
+            or len(set(ids)) != len(ids) or 2 not in ids):
         raise ValueError("Unexpected board scope")
+    if any(board["id"] != 2 and (
+        not isinstance(board.get("project_key"), str) or not board["project_key"].strip()
+    ) for board in boards):
+        raise ValueError("Unmarked board scope")
     stacks = rows(await session.call_tool("list_stacks", {"board_id": 2}))
     ids = [stack.get("id") for stack in stacks]
     if len(stacks) != 5 or any(type(i) is not int or i < 1 for i in ids) or len(set(ids)) != 5:
@@ -93,8 +101,8 @@ async def check_session(session):
             raise ValueError("Expected denial was accepted")
     return {
         "status": "PASS",
-        "tools": 9,
-        "boards": 1,
+        "tools": 11,
+        "boards": len(boards),
         "stacks": 5,
         "denials": len(denials),
         "runner_environment": "github-hosted",

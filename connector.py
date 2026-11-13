@@ -3,7 +3,7 @@
 No VPN, provider login, browser automation, or stable tunnel hostname is needed.
 The private credential file supplies a pinned discovery verification key. Never
 retry a tool mutation automatically: a transport failure may have happened after
-its commit. Only the scoped remote server's nine native tools are exposed.
+its commit. Only the explicitly authorized scoped project/card tools are exposed.
 """
 
 from __future__ import annotations
@@ -30,6 +30,8 @@ from mcp import ClientSession
 
 TOOLS = {
     "list_boards",
+    "create_board",
+    "delete_board",
     "list_stacks",
     "list_cards",
     "get_card",

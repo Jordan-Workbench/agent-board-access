@@ -3,8 +3,8 @@
     "schema": 1,
     "mcp_url": "https://expiration-moisture-mae-erp.trycloudflare.com/mcp",
     "board_url": "https://expiration-moisture-mae-erp.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-13T08:18:07.662637+00:00",
-    "expires_at": "2026-11-14T08:18:07.662637+00:00"
+    "issued_at": "2026-11-13T09:33:31.625416+00:00",
+    "expires_at": "2026-11-14T09:33:31.625416+00:00"
   },
-  "signature": "aEcpJN4DRYoORDPQO82bQovPqePiI5dhMWyQUfBsxRumYC5lzOpjK910nuCHKlLV/Pfi5XTbQTd0SV57kENRCg=="
+  "signature": "a8vPPe6pUGDOyQtz0tPrCCGrNerYIVPQVa8SWQQk978likwAS+gucSyigW9TaTpMxYXX2a7MmG+tj2CTDY2UAQ=="
 }
