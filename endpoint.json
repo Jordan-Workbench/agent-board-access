@@ -1,10 +1,10 @@
 {
   "payload": {
     "schema": 1,
-    "mcp_url": "https://expiration-moisture-mae-erp.trycloudflare.com/mcp",
-    "board_url": "https://expiration-moisture-mae-erp.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-13T21:34:27.672345+00:00",
-    "expires_at": "2026-11-14T21:34:27.672345+00:00"
+    "mcp_url": "https://kings-machinery-view-meaning.trycloudflare.com/mcp",
+    "board_url": "https://kings-machinery-view-meaning.trycloudflare.com/apps/deck/board/2",
+    "issued_at": "2026-11-14T05:23:12.327706+00:00",
+    "expires_at": "2026-11-15T05:23:12.327706+00:00"
   },
-  "signature": "vFepLKYha/BTxrG+yF24ECMzR7QVIxY/Qy2h1p5k0PRw1XdCdvt7IilOpV0s2hCbn11REaDMqYjOj7nATg45Dg=="
+  "signature": "9qOTslVqiRBbje+XQ4osAcRePXLHyl1Q3QHHxE6vmdkoUrnn1AZA3q8+tj9ilUy3VZIYzkeLIIytih3tJiv2Bg=="
 }
