@@ -24,7 +24,9 @@ import httpx
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from mcp.client.streamable_http import streamable_http_client
 from mcp.server.lowlevel import Server
+from mcp.server.lowlevel.helper_types import ReadResourceContents
 from mcp.server.stdio import stdio_server
+from pydantic import AnyUrl
 
 from mcp import ClientSession
 
@@ -41,6 +43,12 @@ TOOLS = {
     "add_comment",
     "list_comments",
 }
+
+
+class PolicySession(ClientSession):
+    """SDK session retaining the authenticated server's initialization policy."""
+
+    _agentdeck_instructions: str | None = None
 
 
 def load_credentials(path):
@@ -134,10 +142,11 @@ async def upstream(credentials):
         timeout=60,
     ) as client:
         async with streamable_http_client(url, http_client=client) as (reader, writer, _):
-            async with ClientSession(
+            async with PolicySession(
                 reader, writer, read_timeout_seconds=dt.timedelta(seconds=60)
             ) as session:
-                await session.initialize()
+                initialized = await session.initialize()
+                session._agentdeck_instructions = initialized.instructions
                 yield session
 
 
@@ -163,11 +172,18 @@ class PortableRelay:
                         name, arguments, future = item
                         if not future.cancelled():
                             try:
-                                result = (
-                                    await session.list_tools()
-                                    if name == "__list_tools__"
-                                    else await session.call_tool(name, arguments)
-                                )
+                                if name == "__instructions__":
+                                    result = session._agentdeck_instructions
+                                elif name == "__list_tools__":
+                                    result = await session.list_tools()
+                                elif name == "__list_resources__":
+                                    result = await session.list_resources()
+                                elif name == "__list_resource_templates__":
+                                    result = await session.list_resource_templates()
+                                elif name == "__read_resource__":
+                                    result = await session.read_resource(AnyUrl(arguments["uri"]))
+                                else:
+                                    result = await session.call_tool(name, arguments)
                             except Exception:
                                 if not future.done():
                                     future.set_exception(
@@ -188,11 +204,11 @@ class PortableRelay:
                     future.set_exception(ValueError("Remote connection or signed discovery unavailable"))
 
 
-async def main(path):
-    credentials = load_credentials(path)
-    server = Server("agentdeck-portable")
-    relay = PortableRelay(credentials)
-    worker = asyncio.create_task(relay.run())
+async def build_portable_server(relay):
+    instructions = await relay.request("__instructions__", {})
+    if not isinstance(instructions, str) or not instructions.strip() or len(instructions.encode("utf-8")) > 16384:
+        raise ValueError("Remote connection policy unavailable or exceeds limit")
+    server = Server("agentdeck-portable", instructions=instructions)
 
     @server.list_tools()
     async def list_tools():
@@ -207,7 +223,45 @@ async def main(path):
             raise ValueError("Tool is not permitted")
         return await relay.request(name, arguments or {})
 
+    @server.list_resources()
+    async def list_resources():
+        result = await relay.request("__list_resources__", {})
+        if any(str(r.uri) != "agentdeck://policy" for r in result.resources) or len(result.resources) > 1:
+            raise ValueError("Unexpected remote resources; refusing discovery")
+        return result.resources
+
+    @server.list_resource_templates()
+    async def list_resource_templates():
+        result = await relay.request("__list_resource_templates__", {})
+        if (any(r.uriTemplate != "agentdeck://boards/{board_id}/spec.md" for r in result.resourceTemplates)
+                or len(result.resourceTemplates) > 1):
+            raise ValueError("Unexpected remote resource templates; refusing discovery")
+        return result.resourceTemplates
+
+    @server.read_resource()
+    async def read_resource(uri):
+        uri = str(uri)
+        if uri != "agentdeck://policy" and not re.fullmatch(r"agentdeck://boards/[1-9][0-9]{0,18}/spec\.md", uri):
+            raise ValueError("Resource is not permitted")
+        result = await relay.request("__read_resource__", {"uri": uri})
+        if (not result.contents or len(result.contents) > 4
+                or any(str(item.uri) != uri or not isinstance(getattr(item, "text", None), str)
+                       for item in result.contents)):
+            raise ValueError("Unexpected remote resource content")
+        texts = [item.text for item in result.contents]
+        if sum(len(text.encode("utf-8")) for text in texts) > 131072:
+            raise ValueError("Remote resource exceeds limit")
+        return [ReadResourceContents(content=text, mime_type="text/markdown") for text in texts]
+
+    return server
+
+
+async def main(path):
+    credentials = load_credentials(path)
+    relay = PortableRelay(credentials)
+    worker = asyncio.create_task(relay.run())
     try:
+        server = await build_portable_server(relay)
         async with stdio_server() as (reader, writer):
             await server.run(reader, writer, server.create_initialization_options())
     finally:
