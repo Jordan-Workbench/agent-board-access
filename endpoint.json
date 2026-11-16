@@ -3,8 +3,8 @@
     "schema": 1,
     "mcp_url": "https://aerial-streams-gamecube-travelers.trycloudflare.com/mcp",
     "board_url": "https://aerial-streams-gamecube-travelers.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-15T13:29:29.393938+00:00",
-    "expires_at": "2026-11-16T13:29:29.393938+00:00"
+    "issued_at": "2026-11-16T01:30:06.394451+00:00",
+    "expires_at": "2026-11-17T01:30:06.394451+00:00"
   },
-  "signature": "kTQ9MO73/dfxpnoJ0F6HRUcrQv9vKVf7/W1aaE5mqRYNdk04AvD32uSiWR6ed6GxDxKs02No/dTkklhfiZ/hBw=="
+  "signature": "EAC5P5LGlV/bU/lNPFVGYJVccTa/LgHRneyVRLF4EJeWNvmj7j43qXcGPeYM2r8O6Kh46Z7bxccSv8AxxCulCQ=="
 }
