@@ -1,10 +1,10 @@
 {
   "payload": {
     "schema": 1,
-    "mcp_url": "https://aerial-streams-gamecube-travelers.trycloudflare.com/mcp",
-    "board_url": "https://aerial-streams-gamecube-travelers.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-19T13:34:12.930887+00:00",
-    "expires_at": "2026-11-20T13:34:12.930887+00:00"
+    "mcp_url": "https://barn-labor-supreme-handed.trycloudflare.com/mcp",
+    "board_url": "https://barn-labor-supreme-handed.trycloudflare.com/apps/deck/board/2",
+    "issued_at": "2026-11-19T14:37:52.210233+00:00",
+    "expires_at": "2026-11-20T14:37:52.210233+00:00"
   },
-  "signature": "rlfE7BHmPuFuDquxEwgba4T3T6tCNc/7R3LPGQw7VjPhL1o+RAGQUfN/3iboxzBCS7ri9m1+pwkspNLInMMHBg=="
+  "signature": "RyCDayy3jj4Rj81rqfCSrHBNkt0V4dlNhO7qyR8Me4pHeF6B1cEOtNlWIOpfDN9IRs5zhOKg6AlCHznMDaGfBw=="
 }
