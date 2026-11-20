@@ -3,8 +3,8 @@
     "schema": 1,
     "mcp_url": "https://doug-protect-vegetation-high.trycloudflare.com/mcp",
     "board_url": "https://doug-protect-vegetation-high.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-19T15:09:03.831870+00:00",
-    "expires_at": "2026-11-20T15:09:03.831870+00:00"
+    "issued_at": "2026-11-20T03:09:04.205426+00:00",
+    "expires_at": "2026-11-21T03:09:04.205426+00:00"
   },
-  "signature": "3jiEc+vHwA4c9j4XglEeABvGDoX/R4+POK7BdYRsirozRqpct8j+As9mqSnQ5h0WEoGe48ISGMFxk58SVsRUCQ=="
+  "signature": "zF9pdS0wd7QCvAs2YfBoooRzBWajTQ7Ya9fzraWXh9+d44Eb7YzFvK0ZKDuPbFvIh1IDb/fx6SYMYVmbj86nBw=="
 }
