@@ -1,10 +1,10 @@
 {
   "payload": {
     "schema": 1,
-    "mcp_url": "https://ser-reasoning-multimedia-carriers.trycloudflare.com/mcp",
-    "board_url": "https://ser-reasoning-multimedia-carriers.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-21T03:48:10.177425+00:00",
-    "expires_at": "2026-11-22T03:48:10.177425+00:00"
+    "mcp_url": "https://departure-feet-posted-swim.trycloudflare.com/mcp",
+    "board_url": "https://departure-feet-posted-swim.trycloudflare.com/apps/deck/board/2",
+    "issued_at": "2026-11-21T10:45:07.204697+00:00",
+    "expires_at": "2026-11-22T10:45:07.204697+00:00"
   },
-  "signature": "QMPAdFALDBvudsvmuBEXKWOVvU69nKML16pzla7BFS/7qGIVVgejbsF/hojvyGMCT1ycbcz5NMhHFfN/TkibBA=="
+  "signature": "HWpSF2JAMwEkYcsN3uXIxNNOGSg+oTbUM7Jratv1W+sghs0kHjZD2DVddJubNTPIClXT3ervnmWdOfYrc6biDA=="
 }
