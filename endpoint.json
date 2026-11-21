@@ -1,10 +1,10 @@
 {
   "payload": {
     "schema": 1,
-    "mcp_url": "https://doug-protect-vegetation-high.trycloudflare.com/mcp",
-    "board_url": "https://doug-protect-vegetation-high.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-20T15:09:25.310264+00:00",
-    "expires_at": "2026-11-21T15:09:25.310264+00:00"
+    "mcp_url": "https://ser-reasoning-multimedia-carriers.trycloudflare.com/mcp",
+    "board_url": "https://ser-reasoning-multimedia-carriers.trycloudflare.com/apps/deck/board/2",
+    "issued_at": "2026-11-21T03:48:10.177425+00:00",
+    "expires_at": "2026-11-22T03:48:10.177425+00:00"
   },
-  "signature": "nz3v8Mq7Y0K0FeUovUW5mtKJVDVMuPnVF/cHr4BChxjEikIjZkigSWOOrs8Vay3WnLEYJXnOj5ihzauJiW8GBQ=="
+  "signature": "QMPAdFALDBvudsvmuBEXKWOVvU69nKML16pzla7BFS/7qGIVVgejbsF/hojvyGMCT1ycbcz5NMhHFfN/TkibBA=="
 }
