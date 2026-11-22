@@ -1,10 +1,10 @@
 {
   "payload": {
     "schema": 1,
-    "mcp_url": "https://departure-feet-posted-swim.trycloudflare.com/mcp",
-    "board_url": "https://departure-feet-posted-swim.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-21T10:45:07.204697+00:00",
-    "expires_at": "2026-11-22T10:45:07.204697+00:00"
+    "mcp_url": "https://loops-reconstruction-hitting-volume.trycloudflare.com/mcp",
+    "board_url": "https://loops-reconstruction-hitting-volume.trycloudflare.com/apps/deck/board/2",
+    "issued_at": "2026-11-22T18:39:02.801960+00:00",
+    "expires_at": "2026-11-23T18:39:02.801960+00:00"
   },
-  "signature": "HWpSF2JAMwEkYcsN3uXIxNNOGSg+oTbUM7Jratv1W+sghs0kHjZD2DVddJubNTPIClXT3ervnmWdOfYrc6biDA=="
+  "signature": "bTvxtXj0kWPKlbn4nhsgUGAMphSnIKNBYaghIcAI+54hAfwP5Qf6yDSAbTvPxGrKlD0smBIE+/i0/3+q84WrAA=="
 }
