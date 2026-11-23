@@ -3,8 +3,8 @@
     "schema": 1,
     "mcp_url": "https://loops-reconstruction-hitting-volume.trycloudflare.com/mcp",
     "board_url": "https://loops-reconstruction-hitting-volume.trycloudflare.com/apps/deck/board/2",
-    "issued_at": "2026-11-22T18:39:02.801960+00:00",
-    "expires_at": "2026-11-23T18:39:02.801960+00:00"
+    "issued_at": "2026-11-23T06:39:59.180352+00:00",
+    "expires_at": "2026-11-24T06:39:59.180352+00:00"
   },
-  "signature": "bTvxtXj0kWPKlbn4nhsgUGAMphSnIKNBYaghIcAI+54hAfwP5Qf6yDSAbTvPxGrKlD0smBIE+/i0/3+q84WrAA=="
+  "signature": "0+aUM2kyd8cIPBQ9hBAoR1BZoWvcfw9jb0vNjIJof7U+Tc72W6RFl729MdsMqtFwiRgqWs2cLmSXY2dwcUS5Ag=="
 }
